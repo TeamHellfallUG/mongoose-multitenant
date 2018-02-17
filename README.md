@@ -1,4 +1,4 @@
-Mongoose Multitenant
+Mongoose Multitenant (forked and updated by @TeamHellfallUG)
 =====================
 [![Build Status](https://travis-ci.org/jraede/mongoose-multitenant.png?branch=v0.8.0)](https://travis-ci.org/jraede/mongoose-multitenant)
 

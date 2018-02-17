@@ -1,4 +1,3 @@
-
 var f, semver;
 var fs = require('fs');
 semver = require('semver');
@@ -20,7 +19,7 @@ module.exports = function(grunt) {
 		exec:{
 			test: {
 				cmd:function(ex) {
-					return f('NODE_ENV=test mocha %s', ex)
+					return f('NODE_ENV=test _mocha --exit %s', ex)
 				}
 			}
 			
@@ -48,7 +47,11 @@ module.exports = function(grunt) {
 	grunt.registerTask('dropTestDb', function() {
 		var mongoose = require('mongoose');
 		var done = this.async();
-		mongoose.connect('mongodb://localhost/multitenant_test')
+		mongoose.connect('mongodb://localhost/multitenant_test', 
+		{
+			reconnectTries: Number.MAX_VALUE,
+			reconnectInterval: 1000
+		});
 		mongoose.connection.on('open', function () { 
 			mongoose.connection.db.dropDatabase(function(err) {
 				if(err) {
@@ -56,7 +59,10 @@ module.exports = function(grunt) {
 				} else {
 					console.log('Successfully dropped db');
 				}
-				mongoose.connection.close(done);
+				/*
+				mongoose.connection.close(() => {
+					done();
+				}); */ done();
 			});
 		});
 	});
